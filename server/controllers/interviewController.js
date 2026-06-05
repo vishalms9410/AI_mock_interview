@@ -1,3 +1,4 @@
+import Interview from "../models/Interview.js";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -74,27 +75,97 @@ ${answer}
 
 Evaluate this answer.
 
-Provide:
-1. Score out of 10
-2. Strengths
-3. Weaknesses
-4. Improved Answer
+Return ONLY a valid JSON object in this exact format:
+
+{
+  "score": 8,
+  "strengths": [
+    "Point 1",
+    "Point 2"
+  ],
+  "weaknesses": [
+    "Point 1",
+    "Point 2"
+  ],
+  "improvedAnswer": "Write an improved answer here"
+}
+
+Do not return markdown.
+Do not use \`\`\`json.
+Return only valid JSON.
 `,
         },
       ],
       model: "llama-3.3-70b-versatile",
     });
 
+    const rawResponse = completion.choices[0].message.content;
+
+    const evaluation = JSON.parse(rawResponse);
+
     res.status(200).json({
       success: true,
-      feedback: completion.choices[0].message.content,
+      evaluation,
     });
+
   } catch (error) {
     console.error(error);
 
     res.status(500).json({
       success: false,
       message: "Error evaluating answer",
+    });
+  }
+};
+
+export const saveInterview = async (req, res) => {
+  try {
+    const {
+      role,
+      difficulty,
+      questions,
+      scores,
+      averageScore,
+    } = req.body;
+
+    const interview = await Interview.create({
+      role,
+      difficulty,
+      questions,
+      scores,
+      averageScore,
+    });
+
+    res.status(201).json({
+      success: true,
+      interview,
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: "Error saving interview",
+    });
+  }
+};
+
+export const getInterviews = async (req, res) => {
+  try {
+    const interviews = await Interview.find().sort({
+      createdAt: -1,
+    });
+
+    res.status(200).json({
+      success: true,
+      interviews,
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: "Error fetching interviews",
     });
   }
 };

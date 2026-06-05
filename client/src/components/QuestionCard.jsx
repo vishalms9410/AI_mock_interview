@@ -1,9 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
 
-function QuestionCard({ question }) {
+function QuestionCard({ question, onEvaluation }) {
   const [answer, setAnswer] = useState("");
-  const [feedback, setFeedback] = useState("");
+  const [evaluation, setEvaluation] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const submitAnswer = async () => {
@@ -18,7 +18,11 @@ function QuestionCard({ question }) {
         }
       );
 
-      setFeedback(response.data.feedback);
+      setEvaluation(response.data.evaluation);
+
+      if (onEvaluation) {
+        onEvaluation(response.data.evaluation.score);
+      }
     } catch (error) {
       console.error(error);
     } finally {
@@ -40,9 +44,26 @@ function QuestionCard({ question }) {
         {loading ? "Evaluating..." : "Submit Answer"}
       </button>
 
-      {feedback && (
+      {evaluation && (
         <div className="feedback-box">
-          <pre>{feedback}</pre>
+          <h3>Score: {evaluation.score}/10</h3>
+
+          <h4>Strengths</h4>
+          <ul>
+            {evaluation.strengths.map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+          </ul>
+
+          <h4>Weaknesses</h4>
+          <ul>
+            {evaluation.weaknesses.map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+          </ul>
+
+          <h4>Improved Answer</h4>
+          <p>{evaluation.improvedAnswer}</p>
         </div>
       )}
     </div>
