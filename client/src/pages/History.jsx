@@ -12,8 +12,13 @@ function History() {
   const fetchHistory = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/interview/history"
-      );
+  "http://localhost:5000/api/interview/history",
+  {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  }
+);
 
       setInterviews(response.data.interviews);
     } catch (error) {
