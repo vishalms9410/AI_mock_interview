@@ -2,6 +2,29 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+
+import { Line } from "react-chartjs-2";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
 function History() {
   const [interviews, setInterviews] = useState([]);
 
@@ -12,18 +35,54 @@ function History() {
   const fetchHistory = async () => {
     try {
       const response = await axios.get(
-  "http://localhost:5000/api/interview/history",
-  {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-  }
-);
+        "http://localhost:5000/api/interview/history",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
       setInterviews(response.data.interviews);
     } catch (error) {
       console.error(error);
     }
+  };
+
+  // For history cards (newest first)
+  const sortedInterviews = interviews;
+
+  // For chart (oldest first)
+  const chartInterviews = [...interviews].reverse();
+
+  const chartData = {
+    labels: chartInterviews.map(
+      (_, index) => `Interview ${index + 1}`
+    ),
+    datasets: [
+      {
+        label: "Average Score",
+        data: chartInterviews.map(
+          (item) => item.averageScore
+        ),
+        borderColor: "#6366f1",
+        backgroundColor: "#6366f1",
+        tension: 0.4,
+      },
+    ],
+  };
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: "Interview Performance Trend",
+      },
+    },
   };
 
   return (
@@ -35,10 +94,19 @@ function History() {
           <button>← Back To Interview</button>
         </Link>
 
-        {interviews.length === 0 ? (
+        {chartInterviews.length > 0 && (
+          <div className="chart-container">
+            <Line
+              data={chartData}
+              options={chartOptions}
+            />
+          </div>
+        )}
+
+        {sortedInterviews.length === 0 ? (
           <p>No interviews found.</p>
         ) : (
-          interviews.map((interview) => (
+          sortedInterviews.map((interview) => (
             <div
               key={interview._id}
               className="history-card"

@@ -482,3 +482,154 @@ button:disabled {
   line-height: 1.8;
   margin-top: 10px;
 }
+
+.chart-container {
+  height: 400px;
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 15px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+.voice-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.voice-controls button {
+  flex: 1;
+}
+
+.recording-status {
+  margin-top: 10px;
+  color: #10b981;
+  font-weight: bold;
+}
+
+/* ==========================
+   LOGIN / REGISTER PAGE
+========================== */
+
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: linear-gradient(
+    135deg,
+    #0f172a,
+    #1e293b,
+    #312e81
+  );
+
+  padding: 20px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 450px;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
+  border-radius: 20px;
+
+  padding: 40px;
+
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+
+  color: white;
+}
+
+.auth-card h1 {
+  text-align: center;
+  margin-bottom: 12px;
+  font-size: 2.2rem;
+  color: white;
+}
+
+.auth-card p {
+  text-align: center;
+  color: #cbd5e1;
+  margin-bottom: 20px;
+}
+
+.auth-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.auth-card input {
+  width: 100%;
+  padding: 14px;
+
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.15);
+
+  background: rgba(255,255,255,0.08);
+
+  color: white;
+  font-size: 15px;
+
+  outline: none;
+  transition: 0.3s;
+}
+
+.auth-card input::placeholder {
+  color: #cbd5e1;
+}
+
+.auth-card input:focus {
+  border-color: #6366f1;
+
+  box-shadow:
+    0 0 15px rgba(99,102,241,0.5);
+}
+
+.auth-card button {
+  width: 100%;
+  padding: 14px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: linear-gradient(
+    135deg,
+    #6366f1,
+    #8b5cf6
+  );
+
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.auth-card button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 10px 25px rgba(99,102,241,0.4);
+}
+
+.auth-card a {
+  color: #818cf8;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.auth-card a:hover {
+  text-decoration: underline;
+}

@@ -43,7 +43,11 @@ function Login() {
     <div className="auth-container">
       <div className="auth-card">
 
-        <h1>Login</h1>
+        <h1>🚀 Welcome Back</h1>
+
+            <p>
+               Sign in to continue your AI Interview Journey
+            </p>
 
         <form onSubmit={loginUser}>
           <input

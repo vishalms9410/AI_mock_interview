@@ -1,11 +1,21 @@
 import { useState } from "react";
 import axios from "axios";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
 
 function QuestionCard({ question, onEvaluation }) {
   const [answer, setAnswer] = useState("");
   const [evaluation, setEvaluation] = useState(null);
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  const {
+  transcript,
+  listening,
+  resetTranscript,
+  browserSupportsSpeechRecognition,
+} = useSpeechRecognition();
 
   const submitAnswer = async () => {
     if (!answer.trim()) {
@@ -46,11 +56,53 @@ function QuestionCard({ question, onEvaluation }) {
       setLoading(false);
     }
   };
+const startListening = () => {
+  resetTranscript();
 
+  SpeechRecognition.startListening({
+    continuous: true,
+    language: "en-US",
+  });
+};
+
+const stopListening = () => {
+  SpeechRecognition.stopListening();
+
+  setAnswer(transcript);
+};
+if (!browserSupportsSpeechRecognition) {
+  return (
+    <p>
+      Your browser does not support speech recognition.
+    </p>
+  );
+}
   return (
     <div className="question-card">
       <div className="question-header">
         <h3>{question}</h3>
+        <div className="voice-controls">
+
+  <button
+    type="button"
+    onClick={startListening}
+  >
+    🎤 Start Recording
+  </button>
+
+  <button
+    type="button"
+    onClick={stopListening}
+  >
+    ⏹ Stop Recording
+  </button>
+
+</div>
+{listening && (
+  <p className="recording-status">
+    🎙 Listening...
+  </p>
+)}
 
         {evaluation && (
           <span className="score-badge">
@@ -60,11 +112,10 @@ function QuestionCard({ question, onEvaluation }) {
       </div>
 
       <textarea
-        placeholder="Write your answer here..."
-        value={answer}
-        disabled={submitted}
-        onChange={(e) => setAnswer(e.target.value)}
-      />
+  placeholder="Write your answer here..."
+  value={listening ? transcript : answer}
+  onChange={(e) => setAnswer(e.target.value)}
+/>
 
       <button
         onClick={submitAnswer}
