@@ -27,7 +27,7 @@ function QuestionCard({ question, onEvaluation }) {
       setLoading(true);
 
       const response = await axios.post(
-        "http://localhost:5000/api/interview/evaluate-answer",
+        "https://ai-mock-interview-c974.onrender.com/evaluate-answer",
         {
           question,
           answer,

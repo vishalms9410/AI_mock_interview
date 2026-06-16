@@ -35,7 +35,7 @@ useEffect(() => {
       setReport("");
 
       const response = await axios.post(
-        "http://localhost:5000/api/interview/generate-questions",
+        "https://ai-mock-interview-c974.onrender.com/generate-questions",
         {
           role,
           difficulty,
@@ -67,7 +67,7 @@ useEffect(() => {
   const saveInterview = async () => {
     try {
      await axios.post(
-  "http://localhost:5000/api/interview/save-interview",
+  "https://ai-mock-interview-c974.onrender.com/interviews/save-interview",
   {
     role,
     difficulty,
@@ -89,7 +89,7 @@ useEffect(() => {
     } catch (error) {
       console.error(error);
       alert("Failed to save interview");await axios.post(
-  "http://localhost:5000/api/interview/save-interview",
+  "https://ai-mock-interview-c974.onrender.com/interviews/save-interview",
   {
     role,
     difficulty,
@@ -109,7 +109,7 @@ useEffect(() => {
   const generateReport = async () => {
   try {
     const response = await axios.post(
-      "http://localhost:5000/api/interview/generate-report",
+      "https://ai-mock-interview-c974.onrender.com/interviews/generate-report",
       {
         role,
         difficulty,
