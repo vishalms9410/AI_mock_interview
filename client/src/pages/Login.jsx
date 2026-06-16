@@ -13,7 +13,7 @@ function Login() {
 
     try {
       const response = await axios.post(
-        "https://ai-mock-interview-c974.onrender.com/auth/login",
+        "https://ai-mock-interview-c974.onrender.com/api/auth/login",
         {
           email,
           password,

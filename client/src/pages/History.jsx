@@ -35,7 +35,7 @@ function History() {
   const fetchHistory = async () => {
     try {
       const response = await axios.get(
-        "https://ai-mock-interview-c974.onrender.com/interviews/history",
+        "https://ai-mock-interview-c974.onrender.com/api/interviews/history",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
