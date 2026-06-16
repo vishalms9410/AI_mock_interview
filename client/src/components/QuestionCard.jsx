@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import SpeechRecognition, {
   useSpeechRecognition,
@@ -11,11 +11,15 @@ function QuestionCard({ question, onEvaluation }) {
   const [submitted, setSubmitted] = useState(false);
 
   const {
-  transcript,
-  listening,
-  resetTranscript,
-  browserSupportsSpeechRecognition,
-} = useSpeechRecognition();
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition,
+  } = useSpeechRecognition();
+
+  useEffect(() => {
+    console.log("Transcript Changed:", transcript);
+  }, [transcript]);
 
   const submitAnswer = async () => {
     if (!answer.trim()) {
@@ -56,53 +60,62 @@ function QuestionCard({ question, onEvaluation }) {
       setLoading(false);
     }
   };
-const startListening = () => {
-  resetTranscript();
 
-  SpeechRecognition.startListening({
-    continuous: true,
-    language: "en-US",
-  });
-};
+  const startListening = () => {
+    console.log("START RECORDING");
 
-const stopListening = () => {
-  SpeechRecognition.stopListening();
+    resetTranscript();
 
-  setAnswer(transcript);
-};
-if (!browserSupportsSpeechRecognition) {
-  return (
-    <p>
-      Your browser does not support speech recognition.
-    </p>
-  );
-}
+    SpeechRecognition.startListening({
+      continuous: true,
+      language: "en-US",
+    });
+  };
+
+  const stopListening = () => {
+    SpeechRecognition.stopListening();
+
+    setTimeout(() => {
+      console.log("FINAL TRANSCRIPT:", transcript);
+
+      setAnswer(transcript);
+    }, 500);
+  };
+
+  if (!browserSupportsSpeechRecognition) {
+    return (
+      <p>
+        Your browser does not support speech recognition.
+      </p>
+    );
+  }
+
   return (
     <div className="question-card">
       <div className="question-header">
         <h3>{question}</h3>
+
         <div className="voice-controls">
+          <button
+            type="button"
+            onClick={startListening}
+          >
+            🎤 Start Recording
+          </button>
 
-  <button
-    type="button"
-    onClick={startListening}
-  >
-    🎤 Start Recording
-  </button>
+          <button
+            type="button"
+            onClick={stopListening}
+          >
+            ⏹ Stop Recording
+          </button>
+        </div>
 
-  <button
-    type="button"
-    onClick={stopListening}
-  >
-    ⏹ Stop Recording
-  </button>
-
-</div>
-{listening && (
-  <p className="recording-status">
-    🎙 Listening...
-  </p>
-)}
+        {listening && (
+          <p className="recording-status">
+            🎙 Listening...
+          </p>
+        )}
 
         {evaluation && (
           <span className="score-badge">
@@ -112,10 +125,10 @@ if (!browserSupportsSpeechRecognition) {
       </div>
 
       <textarea
-  placeholder="Write your answer here..."
-  value={listening ? transcript : answer}
-  onChange={(e) => setAnswer(e.target.value)}
-/>
+        placeholder="Write your answer here..."
+        value={answer}
+        onChange={(e) => setAnswer(e.target.value)}
+      />
 
       <button
         onClick={submitAnswer}
@@ -134,9 +147,11 @@ if (!browserSupportsSpeechRecognition) {
             <h4>✅ Strengths</h4>
 
             <ul>
-              {evaluation.strengths.map((item, index) => (
-                <li key={index}>{item}</li>
-              ))}
+              {evaluation.strengths.map(
+                (item, index) => (
+                  <li key={index}>{item}</li>
+                )
+              )}
             </ul>
           </div>
 
@@ -144,9 +159,11 @@ if (!browserSupportsSpeechRecognition) {
             <h4>⚠️ Weaknesses</h4>
 
             <ul>
-              {evaluation.weaknesses.map((item, index) => (
-                <li key={index}>{item}</li>
-              ))}
+              {evaluation.weaknesses.map(
+                (item, index) => (
+                  <li key={index}>{item}</li>
+                )
+              )}
             </ul>
           </div>
 
