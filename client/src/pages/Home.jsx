@@ -35,7 +35,7 @@ useEffect(() => {
       setReport("");
 
       const response = await axios.post(
-        "https://ai-mock-interview-c974.onrender.com/api/generate-questions",
+        "https://ai-mock-interview-c974.onrender.com/api/interview/generate-questions",
         {
           role,
           difficulty,
@@ -64,52 +64,38 @@ useEffect(() => {
         ).toFixed(1)
       : 0;
 
-  const saveInterview = async () => {
-    try {
-     await axios.post(
-  "https://ai-mock-interview-c974.onrender.com/api/interviews/save-interview",
-  {
-    role,
-    difficulty,
-    questions,
-    evaluations,
-    averageScore,
-  },
-  {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem(
-        "token"
-      )}`,
-    },
-  }
-);
+ const saveInterview = async () => {
+  try {
+    await axios.post(
+      "https://ai-mock-interview-c974.onrender.com/api/interview/save-interview",
+      {
+        role,
+        difficulty,
+        questions,
+        evaluations,
+        averageScore,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem(
+            "token"
+          )}`,
+        },
+      }
+    );
 
-      setSaved(true);
-      alert("Interview Saved Successfully!");
-    } catch (error) {
-      console.error(error);
-      alert("Failed to save interview");await axios.post(
-  "https://ai-mock-interview-c974.onrender.com/api/interviews/save-interview",
-  {
-    role,
-    difficulty,
-    questions,
-    evaluations,
-    averageScore,
-  },
-  {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
+    setSaved(true);
+    alert("Interview Saved Successfully!");
+  } catch (error) {
+    console.error(error);
+    alert("Failed to save interview");
   }
-);
-    }
-  };
+};
 
   const generateReport = async () => {
   try {
     const response = await axios.post(
-      "https://ai-mock-interview-c974.onrender.com/api/interviews/generate-report",
+      "https://ai-mock-interview-c974.onrender.com/api/interview/generate-report",
       {
         role,
         difficulty,
