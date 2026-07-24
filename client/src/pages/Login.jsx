@@ -8,41 +8,42 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const loginUser = async (e) => {
-    e.preventDefault();
-    console.log("Login button clicked");
+ const loginUser = async (e) => {
+  e.preventDefault();
 
-    try {
-      const response = await axios.post(
-        "https://ai-mock-interview-c974.onrender.com/api/auth/login",
-        {
-          email,
-          password,
-        }
-      );
+  console.log("1. Login button clicked");
 
-      localStorage.setItem(
-        "token",
-        response.data.token
-      );
+  try {
+    console.log("2. Before axios");
 
-      localStorage.setItem(
-        "user",
-        JSON.stringify(response.data.user)
-      );
+    const response = await axios.post(
+      "https://ai-mock-interview-c974.onrender.com/api/auth/login",
+      {
+        email,
+        password,
+      }
+    );
 
-      alert("Login Successful");
+    console.log("3. After axios");
+    console.log(response);
 
-      navigate("/");
-    } catch (error) {
-      console.log("FULL ERROR:", error);
-      console.log("RESPONSE:", error.response);
-      console.log("DATA:", error.response?.data);
-      console.log("STATUS:", error.response?.status);
+    localStorage.setItem("token", response.data.token);
 
-      alert("Login Failed");
-    }
-  };
+    localStorage.setItem(
+      "user",
+      JSON.stringify(response.data.user)
+    );
+
+    alert("Login Successful");
+
+    navigate("/");
+  } catch (error) {
+    console.log("4. Inside catch");
+    console.log(error);
+  }
+
+  console.log("5. Function finished");
+};
 
   return (
     <div className="auth-container">
