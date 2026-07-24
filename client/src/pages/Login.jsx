@@ -11,11 +11,7 @@ function Login() {
  const loginUser = async (e) => {
   e.preventDefault();
 
-  console.log("1. Login button clicked");
-
   try {
-    console.log("2. Before axios");
-
     const response = await axios.post(
       "https://ai-mock-interview-c974.onrender.com/api/auth/login",
       {
@@ -24,10 +20,10 @@ function Login() {
       }
     );
 
-    console.log("3. After axios");
-    console.log(response);
-
-    localStorage.setItem("token", response.data.token);
+    localStorage.setItem(
+      "token",
+      response.data.token
+    );
 
     localStorage.setItem(
       "user",
@@ -38,11 +34,9 @@ function Login() {
 
     navigate("/");
   } catch (error) {
-    console.log("4. Inside catch");
-    console.log(error);
+    console.error(error);
+    alert("Invalid Credentials");
   }
-
-  console.log("5. Function finished");
 };
 
   return (
