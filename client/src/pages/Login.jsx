@@ -10,7 +10,8 @@ function Login() {
 
   const loginUser = async (e) => {
     e.preventDefault();
-
+    console.log("Login button clicked");
+    
     try {
       const response = await axios.post(
         "https://ai-mock-interview-c974.onrender.com/api/auth/login",
@@ -43,7 +44,7 @@ function Login() {
     <div className="auth-container">
       <div className="auth-card">
 
-        <h1>🚀 Welcome Back TEST 123</h1>
+        <h1>🚀 Welcome Back</h1>
 
             <p>
                Sign in to continue your AI Interview Journey
