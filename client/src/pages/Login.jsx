@@ -11,7 +11,7 @@ function Login() {
   const loginUser = async (e) => {
     e.preventDefault();
     console.log("Login button clicked");
-    
+
     try {
       const response = await axios.post(
         "https://ai-mock-interview-c974.onrender.com/api/auth/login",
@@ -35,8 +35,12 @@ function Login() {
 
       navigate("/");
     } catch (error) {
-      console.error(error);
-      alert("Invalid Credentials");
+      console.log("FULL ERROR:", error);
+      console.log("RESPONSE:", error.response);
+      console.log("DATA:", error.response?.data);
+      console.log("STATUS:", error.response?.status);
+
+      alert("Login Failed");
     }
   };
 
