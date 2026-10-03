@@ -37,7 +37,8 @@ Do not return anything except the JSON array.
 `,
         },
       ],
-      model: "llama-3.3-70b-versatile",
+      model: "openai/gpt-oss-120b",
+      temperature: 0.7,
     });
 
     const questions = JSON.parse(
@@ -104,7 +105,8 @@ Return only valid JSON.
 `,
         },
       ],
-      model: "llama-3.3-70b-versatile",
+      model: "openai/gpt-oss-120b",
+      temperature: 0.7,
     });
 
     const rawResponse = completion.choices[0].message.content;
@@ -243,7 +245,8 @@ Return only the report.
 `,
         },
       ],
-      model: "llama-3.3-70b-versatile",
+      model: "openai/gpt-oss-120b",
+      temperature: 0.7,
     });
 
     res.status(200).json({
