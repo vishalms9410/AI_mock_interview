@@ -1303,7 +1303,6 @@ NIT Raipur
 
 * GitHub: https://github.com/vishalms9410
 * LeetCode: https://leetcode.com/u/vishalms9410/
-* CodeChef: https://www.codechef.com/users/vishalms9410
 
 ---
 
